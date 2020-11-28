@@ -1,0 +1,10 @@
+.gameboard .cell {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+}
+
+.gameboard td {
+    padding: 0;
+}
