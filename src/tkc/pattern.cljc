@@ -67,6 +67,7 @@
                      [:div.cell
                       [:svg {:width 20 :height 20}
                        (use-piece :m "mark")
+                       (use-piece :m2 "mark2")
                        (use-piece :c "commonPiece")
                        (use-piece :h "heroicPiece")
                        (use-piece :n "arrN")

@@ -2,6 +2,7 @@
   (:require [reagent.core :as r]
             [reagent.dom :as dom]
             [tkc.pattern :as pattern]
+            [tkc.cards.legends :as legends]
             [tkc.cards.northern :as northern]
             [tkc.cards.sylvan :as sylvan]))
 
@@ -14,6 +15,10 @@
         [pattern/pattern c]])]
     [:div.col
      (for [c sylvan/deck]
+       [:div {:key c}
+        [pattern/pattern c]])]
+    [:div.col
+     (for [c legends/deck]
        [:div {:key c}
         [pattern/pattern c]])]]])
 
