@@ -5,7 +5,7 @@
       <path d="M 4 6 H 7 L 16 14 H 13 Z" fill="black"></path>
       <circle cx="10" cy="10" r="8" stroke="black" fill="transparent"></circle>
     </g>
-    <g id="upgradedPiece">
+    <g id="heroicPiece">
       <use href="#commonPiece"></use>
       <path d="M 16 6 H 13 L 4 14 H 7 Z"></path>
     </g>

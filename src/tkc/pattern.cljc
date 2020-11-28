@@ -31,7 +31,7 @@
           (sort-by (fn [[id {:keys [rank name]}]]
                      [(case rank
                         :common 0
-                        :upgraded 1
+                        :heroic 1
                         :legendary 2)
                       name]))
           (mapv first))]
@@ -50,7 +50,7 @@
   [:div.card.my-1
    [:h5.card-header name " " (case rank
                                :common [:span.badge.badge-secondary "Common"]
-                               :upgraded [:span.badge.badge-primary "Upgraded"]
+                               :heroic [:span.badge.badge-primary "Heroic"]
                                :legendary [:span.badge.badge-warning "Legendary"])]
    [:div.d-flex.flex-row.p-3
     [:div
@@ -68,7 +68,7 @@
                       [:svg {:width 20 :height 20}
                        (use-piece :m "mark")
                        (use-piece :c "commonPiece")
-                       (use-piece :u "upgradedPiece")
+                       (use-piece :h "heroicPiece")
                        (use-piece :n "arrN")
                        (use-piece :ne "arrNE")
                        (use-piece :e "arrE")
