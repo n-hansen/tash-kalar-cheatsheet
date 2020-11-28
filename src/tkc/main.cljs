@@ -2,13 +2,20 @@
   (:require [reagent.core :as r]
             [reagent.dom :as dom]
             [tkc.pattern :as pattern]
-            [tkc.cards.northern :as northern]))
+            [tkc.cards.northern :as northern]
+            [tkc.cards.sylvan :as sylvan]))
 
 (defn root []
   [:div.container
-   (for [c northern/deck ]
-     [:div {:key c}
-      [pattern/pattern c]])])
+   [:div.row
+    [:div.col
+     (for [c northern/deck ]
+       [:div {:key c}
+        [pattern/pattern c]])]
+    [:div.col
+     (for [c sylvan/deck]
+       [:div {:key c}
+        [pattern/pattern c]])]]])
 
 ;; Entry Points
 
