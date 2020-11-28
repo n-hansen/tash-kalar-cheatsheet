@@ -53,7 +53,7 @@
                                :heroic [:span.badge.badge-primary "Heroic"]
                                :legendary [:span.badge.badge-warning "Legendary"])]
    [:div.d-flex.flex-row.p-3
-    [:div
+    [:div.mr-2
      [:table.table.table-bordered.mt-1.gameboard
       (->> grid
            (map (fn [cell]
