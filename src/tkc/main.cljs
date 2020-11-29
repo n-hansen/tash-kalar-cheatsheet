@@ -48,7 +48,8 @@
         {:key c
          :on-click #(swap! decks update-in [ix :hidden] conj c)}
         [pattern/pattern c]])
-     [:hr.w-100]
+     (when (not-empty hidden-cards)
+       [:hr.w-100])
      (for [c hidden-cards]
        [:div.hidden-card
         {:key c
@@ -87,7 +88,9 @@
     [:div.row
      (for [ix (range (count @decks))]
        [:div.col
-        {:key ix}
+        {:key ix
+         :class (when (zero? ix)
+                  "order-last")}
         [deck ix]])]]])
 
 ;; Entry Points
