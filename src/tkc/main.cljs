@@ -1,5 +1,6 @@
 (ns tkc.main
-  (:require [reagent.core :as r]
+  (:require [clojure.edn :as edn]
+            [reagent.core :as r]
             [reagent.dom :as dom]
             [tkc.pattern :as pattern]
             [tkc.cards.highland :as highland]
@@ -7,7 +8,16 @@
             [tkc.cards.northern :as northern]
             [tkc.cards.sylvan :as sylvan]))
 
-(def decks (r/atom [{:deck-id :legends :hidden #{}}]))
+(def decks (r/atom (or (some-> js/window
+                               .-location
+                               .-href
+                               js/URL.
+                               .-search
+                               js/URLSearchParams.
+                               (.get "d")
+                               js/atob
+                               edn/read-string)
+                       [{:deck-id :legends :hidden #{}}])))
 
 (defn deck
   [ix]
@@ -38,6 +48,14 @@
          :on-click #(swap! decks update-in [ix :hidden] disj c)}
         [pattern/pattern c]])]))
 
+(defn persistence-link
+  []
+  (let [b64st (-> @decks pr-str js/btoa)]
+    [:a
+     {:href (str "?d=" b64st)}
+     [:svg.feather
+      [:use {:href "/img/feather-sprite.svg#link"}]]]))
+
 (defn root []
   [:div
    [:div.border-bottom.mb-3.d-flex.flex-row.align-items-center
@@ -56,7 +74,8 @@
         [:a.dropdown-item.text-capitalize
          {:key d
           :on-click #(swap! decks conj {:deck-id d :hidden #{}})}
-         (name d)])]]]
+         (name d)])]]
+    [:div.ml-auto.mr-3 [persistence-link]]]
    [:div.container
     [:div.row
      (for [ix (range (count @decks))]

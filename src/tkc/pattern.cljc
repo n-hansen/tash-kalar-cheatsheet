@@ -27,31 +27,27 @@
   ([ns] (deck ns nil))
   ([ns cnt]
    (let [syms (->> @+pattern-registry+
-          (filter #(= (name ns) (namespace (first %))))
-          (sort-by (fn [[id {:keys [rank name]}]]
-                     [(case rank
-                        :common 0
-                        :heroic 1
-                        :legendary 2)
-                      name]))
-          (mapv first))]
+                   (filter #(= (name ns) (namespace (first %))))
+                   (sort-by (fn [[id {:keys [rank name]}]]
+                              [(case rank
+                                 :common 0
+                                 :heroic 1
+                                 :legendary 2)
+                               name]))
+                   (mapv first))]
      (when cnt
        (assert (= cnt (count syms))
                (format "Expected %s to have %s entries, but only found %s"
                        ns cnt (count syms))))
      syms)))
 
-(defn- use-piece
-  [id]
-  )
-
 (defn pattern*
   [{:keys [name rank width height description grid]}]
   [:div.card.my-1
-   [:h5.card-header name " " (case rank
-                               :common [:span.badge.badge-secondary "Common"]
-                               :heroic [:span.badge.badge-primary "Heroic"]
-                               :legendary [:span.badge.badge-warning "Legendary"])]
+   [:h5.card-header name (case rank
+                           :common [:span.badge.badge-secondary.ml-2 "Common"]
+                           :heroic [:span.badge.badge-primary.ml-2 "Heroic"]
+                           :legendary [:span.badge.badge-warning.ml-2 "Legendary"])]
    [:div.d-flex.flex-row.p-3
     [:div.mr-2
      [:table.table.table-bordered.mt-1.gameboard
