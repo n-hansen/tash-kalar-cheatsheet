@@ -63,7 +63,7 @@
                                      (set cell))
                          use-piece (fn [kw id]
                                      (when (contains? cell-data kw)
-                                       [:use {:href (str "img/pieces.svg#" id)}]))]
+                                       [:use {:href (str "/img/pieces.svg#" id)}]))]
                      [:div.cell
                       [:svg {:width 20 :height 20}
                        (use-piece :m "mark")
