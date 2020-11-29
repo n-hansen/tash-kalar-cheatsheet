@@ -3,6 +3,7 @@
             [reagent.core :as r]
             [reagent.dom :as dom]
             [tkc.pattern :as pattern]
+            [tkc.cards.everfrost :as everfrost]
             [tkc.cards.highland :as highland]
             [tkc.cards.legends :as legends]
             [tkc.cards.northern :as northern]
@@ -26,6 +27,7 @@
                                                      :sylvan sylvan/deck
                                                      :northern northern/deck
                                                      :highland highland/deck
+                                                     :everfrost everfrost/deck
                                                      :legends legends/deck)
                                                    (group-by (comp boolean hidden)))]
     [:div.d-flex.flex-column
@@ -70,7 +72,7 @@
       "Add Deck"]
      [:div.dropdown-menu
       {:aria-labelledby "addDeckDropdown"}
-      (for [d [:northern :highland :sylvan]]
+      (for [d [:northern :highland :sylvan :everfrost]]
         [:a.dropdown-item.text-capitalize
          {:key d
           :on-click #(swap! decks conj {:deck-id d :hidden #{}})}
