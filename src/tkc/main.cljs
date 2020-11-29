@@ -5,6 +5,7 @@
             [tkc.pattern :as pattern]
             [tkc.cards.everfrost :as everfrost]
             [tkc.cards.highland :as highland]
+            [tkc.cards.flares :as flares]
             [tkc.cards.legends :as legends]
             [tkc.cards.northern :as northern]
             [tkc.cards.sylvan :as sylvan]))
@@ -18,7 +19,7 @@
                                (.get "d")
                                js/atob
                                edn/read-string)
-                       [{:deck-id :legends :hidden #{}}])))
+                       [{:deck-id :common :hidden #{}}])))
 
 (defn deck
   [ix]
@@ -28,16 +29,20 @@
                                                      :northern northern/deck
                                                      :highland highland/deck
                                                      :everfrost everfrost/deck
-                                                     :legends legends/deck)
+                                                     :common (concat legends/deck
+                                                                     flares/deck))
                                                    (group-by (comp boolean hidden)))]
     [:div.d-flex.flex-column
-     [:h3.text-capitalize (name deck-id) " " (when (not-empty hidden)
-                                               [:svg.feather
-                                                {:on-click #(swap! decks assoc-in [ix :hidden] #{})
-                                                 :alt "Refresh all cards"
-                                                 :role "button"}
-                                                [:use {:stroke "silver"
-                                                       :href "/img/feather-sprite.svg#refresh-cw"}]])]
+     [:h3.text-capitalize (if (= deck-id :common)
+                            "Legends & Flares"
+                            (name deck-id))
+      (when (not-empty hidden)
+        [:svg.feather.ml-2
+         {:on-click #(swap! decks assoc-in [ix :hidden] #{})
+          :alt "Refresh all cards"
+          :role "button"}
+         [:use {:stroke "silver"
+                :href "/img/feather-sprite.svg#refresh-cw"}]])]
      (for [c shown-cards]
        [:div
         {:key c
