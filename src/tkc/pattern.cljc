@@ -1,6 +1,6 @@
 (ns tkc.pattern
   (:require [clojure.string :as string]
-            [goog.string.format :refer [format]]))
+            #?(:cljs [goog.string.format :refer [format]])))
 
 (defonce +pattern-registry+ (atom {}))
 
