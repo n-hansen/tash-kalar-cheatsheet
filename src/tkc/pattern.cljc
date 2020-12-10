@@ -43,14 +43,18 @@
                (str "Expected " ns " %s to have " cnt " entries, but only found " (count syms))))
      syms)))
 
+(defn rank->badge
+  [rank]
+  (case rank
+    :common :span.badge.badge-secondary
+    :heroic :span.badge.badge-primary
+    :legendary :span.badge.badge-warning
+    :flare :span.badge.badge-info))
+
 (defn pattern*
-  [{:keys [name rank width height description grid]}]
+  [{:keys [rank width height description grid] card-name :name}]
   [:div.card.my-1
-   [:h5.card-header name (case rank
-                           :common [:span.badge.badge-secondary.ml-2 "Common"]
-                           :heroic [:span.badge.badge-primary.ml-2 "Heroic"]
-                           :legendary [:span.badge.badge-warning.ml-2 "Legendary"]
-                           :flare [:span.badge.badge-info.ml-2 "Flare"])]
+   [:h5.card-header card-name [(rank->badge rank) {:class "text-capitalize ml-2"} (name rank)]]
    (if-some [grid (not-empty grid)]
      [:div.card-body.d-flex.flex-row
       [:div.mr-2

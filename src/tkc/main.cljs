@@ -24,18 +24,26 @@
 (defn deck
   [ix]
   (let [{:keys [deck-id hidden]} (get @decks ix)
-        {hidden-cards true shown-cards false} (->> (case deck-id
-                                                     :sylvan sylvan/deck
-                                                     :northern northern/deck
-                                                     :highland highland/deck
-                                                     :everfrost everfrost/deck
-                                                     :common (concat legends/deck
-                                                                     flares/deck))
-                                                   (group-by (comp boolean hidden)))]
+        all-cards (case deck-id
+                    :sylvan sylvan/deck
+                    :northern northern/deck
+                    :highland highland/deck
+                    :everfrost everfrost/deck
+                    :common (concat legends/deck
+                                    flares/deck))
+        {hidden-cards true shown-cards false} (group-by (comp boolean hidden) all-cards)]
     [:div.d-flex.flex-column
      [:h3.text-capitalize (if (= deck-id :common)
                             "Legends & Flares"
                             (name deck-id))
+      [:span.ml-2.header-pill-group
+       (for [[rank cs] (->> all-cards
+                            (group-by (comp :rank (partial get @pattern/+pattern-registry+))))
+             :let [all-cnt (count cs)
+                   shown-cnt (->> shown-cards
+                                  (filter (set cs))
+                                  (count))]]
+         [(pattern/rank->badge rank) {:key rank} (str shown-cnt "/" all-cnt)])]
       (when (not-empty hidden)
         [:svg.feather.ml-2
          {:on-click #(swap! decks assoc-in [ix :hidden] #{})
