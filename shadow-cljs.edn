@@ -1,7 +1,8 @@
 ;; shadow-cljs configuration
 {:source-paths ["src/"]
 
- :dependencies [[reagent "0.10.0"]]
+ :dependencies [[hiccups "0.3.0"]
+                [reagent "0.10.0"]]
 
  :builds {:app {:target :browser
                 :output-dir "public/js"
@@ -12,4 +13,8 @@
                 ;; start a development http server on http://localhost:8020
                 :devtools {:http-root "public"
                            :http-port 8020
-                           :after-load tkc.main/reload!}}}}
+                           :after-load tkc.main/reload!}}
+
+          :noscript {:target :node-script
+                     :main tkc.noscript/main!
+                     :output-to "out/generate-noscript-page.js"}}}

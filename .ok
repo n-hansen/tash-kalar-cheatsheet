@@ -1,0 +1,3 @@
+dev-server: npx shadow-cljs watch :app
+dev-noscript: fd --glob '*.cljs' | entr -r fish -c 'make public/noscript.html && cd public && python -m http.server'
+
