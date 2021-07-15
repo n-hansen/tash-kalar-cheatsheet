@@ -2,15 +2,8 @@
   (:require [clojure.edn :as edn]
             [reagent.core :as r]
             [reagent.dom :as dom]
-            [tkc.pattern :as pattern]
-            [tkc.cards.etherweave :as etherweave]
-            [tkc.cards.everfrost :as everfrost]
-            [tkc.cards.highland :as highland]
-            [tkc.cards.flares :as flares]
-            [tkc.cards.legends :as legends]
-            [tkc.cards.nethervoid :as netherweave]
-            [tkc.cards.northern :as northern]
-            [tkc.cards.sylvan :as sylvan]))
+            [tkc.cards.library :as library]
+            [tkc.pattern :as pattern]))
 
 (def decks (r/atom (or (some-> js/window
                                .-location
@@ -26,15 +19,7 @@
 (defn deck
   [ix]
   (let [{:keys [deck-id hidden]} (get @decks ix)
-        all-cards (case deck-id
-                    :sylvan sylvan/deck
-                    :northern northern/deck
-                    :highland highland/deck
-                    :everfrost everfrost/deck
-                    :nethervoid netherweave/deck
-                    :etherweave etherweave/deck
-                    :common (concat legends/deck
-                                    flares/deck))
+        all-cards (get library/all-decks deck-id)
         {hidden-cards true shown-cards false} (group-by (comp boolean hidden) all-cards)]
     [:div.d-flex.flex-column
      [:h3.text-capitalize (if (= deck-id :common)
@@ -90,7 +75,7 @@
       "Add Deck"]
      [:div.dropdown-menu
       {:aria-labelledby "addDeckDropdown"}
-      (for [d [:northern :highland :sylvan :everfrost :nethervoid :etherweave]]
+      (for [d (keys library/faction-decks)]
         [:a.dropdown-item.text-capitalize
          {:key d
           :on-click #(swap! decks conj {:deck-id d :hidden #{}})}
