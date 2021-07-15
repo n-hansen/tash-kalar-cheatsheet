@@ -5,7 +5,7 @@
   ([frost-effect]
    [:div.d-flex.flex-row
     [:div.mx-1 "❄"]
-    [:p.text-info frost-effect]])
+    [:p.text-info.mb-0 frost-effect]])
   ([on-play frost-effect]
    [:<>
     [:p on-play]

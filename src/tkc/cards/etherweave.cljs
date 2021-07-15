@@ -5,7 +5,7 @@
   ([warp-effect]
    [:div.d-flex.flex-row
     [:div.mx-1 "🌀"]
-    [:p.text-info warp-effect]])
+    [:p.text-info.mb-0 warp-effect]])
   ([warp-effect on-play]
    [:<>
     (warp-caption warp-effect)
