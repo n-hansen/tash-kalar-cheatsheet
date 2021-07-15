@@ -3,10 +3,12 @@
             [reagent.core :as r]
             [reagent.dom :as dom]
             [tkc.pattern :as pattern]
+            [tkc.cards.etherweave :as etherweave]
             [tkc.cards.everfrost :as everfrost]
             [tkc.cards.highland :as highland]
             [tkc.cards.flares :as flares]
             [tkc.cards.legends :as legends]
+            [tkc.cards.nethervoid :as netherweave]
             [tkc.cards.northern :as northern]
             [tkc.cards.sylvan :as sylvan]))
 
@@ -29,6 +31,8 @@
                     :northern northern/deck
                     :highland highland/deck
                     :everfrost everfrost/deck
+                    :nethervoid netherweave/deck
+                    :etherweave etherweave/deck
                     :common (concat legends/deck
                                     flares/deck))
         {hidden-cards true shown-cards false} (group-by (comp boolean hidden) all-cards)]
@@ -86,7 +90,7 @@
       "Add Deck"]
      [:div.dropdown-menu
       {:aria-labelledby "addDeckDropdown"}
-      (for [d [:northern :highland :sylvan :everfrost]]
+      (for [d [:northern :highland :sylvan :everfrost :nethervoid :etherweave]]
         [:a.dropdown-item.text-capitalize
          {:key d
           :on-click #(swap! decks conj {:deck-id d :hidden #{}})}
