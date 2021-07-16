@@ -48,9 +48,12 @@
          [:li
           [:a.text-capitalize {:href (str \# deck-name)} deck-name]
           (when sublinks?
-            [:ul
-             [:li [:a.text-capitalize {:href (str \# deck-name "-c")} "Common"]]
-             [:li [:a.text-capitalize {:href (str \# deck-name "-h")} "Heroic"]]])])
+            [:span.small.ml-1
+             "("
+             [:a.text-capitalize {:href (str \# deck-name "-c")} "Common"]
+             ", "
+             [:a.text-capitalize {:href (str \# deck-name "-h")} "Heroic"]
+             ")"])])
        (into [:ul])))
 
 (defn deck-listing
