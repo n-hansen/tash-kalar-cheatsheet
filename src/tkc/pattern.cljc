@@ -43,6 +43,11 @@
                (str "Expected " ns " %s to have " cnt " entries, but only found " (count syms))))
      syms)))
 
+(defn pattern->rank
+  [id]
+  (when-some [p (get @+pattern-registry+ id)]
+    (:rank p)))
+
 (defn rank->badge
   [rank]
   (case rank
