@@ -7,16 +7,16 @@
   (:require-macros [hiccups.core :as hiccups]))
 
 (defn hoist-fragments
+  ;; hiccups doesn't know about :<>
   [markup]
   (walk/postwalk (fn [thing]
-                   (if-not (vector? thing)
-                     thing
+                   (cond->> thing
+                     (vector? thing)
                      (into [] (mapcat (fn [child]
                                         (if (and (vector? child)
                                                  (= :<> (first child)))
                                           (rest child)
-                                          [child])))
-                           thing)))
+                                          [child]))))))
                  markup))
 
 (defn combine-classes
@@ -62,7 +62,11 @@
         seen-common? (atom false)
         seen-heroic? (atom false)]
     [:<>
-     [:h3.text-capitalize {:id deck-name} deck-name]
+     [:h3.text-capitalize {:id deck-name} deck-name
+      [:a.text-muted.ml-2
+       {:href "#"}
+       [:svg.feather
+        [:use {:href "/img/feather-sprite.svg#arrow-up"}]]]]
      (->> cards
           (map (fn [card]
                  [:div.col-md-6
@@ -109,6 +113,7 @@
            (table-of-contents decks)
            (->> decks
                 (map (partial apply deck-listing))
+                (interpose [:hr])
                 (into [:<>]))]]]
         (hoist-fragments)
         (combine-classes))))
